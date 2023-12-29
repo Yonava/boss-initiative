@@ -1,6 +1,6 @@
 <template>
   <button
-    class="py-6 px-10 font-semibold text-2xl cursor-pointer"
+    class="py-6 w-64 font-semibold text-3xl cursor-pointer uppercase"
   >
     <slot><!-- optional fallback --></slot>
   </button>
