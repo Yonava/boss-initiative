@@ -12,12 +12,12 @@
     <TopNavButton
       v-for="btn in btns"
       :key="btn"
-      class="hover:bg-gray-200 transition duration-300"
+      class="hover:bg-blue-800 hover:text-white transition duration-500"
     >
       {{ btn }}
     </TopNavButton>
-    <div class="group text-gray-50 relative overflow-hidden">
-      <TopNavButton>
+    <div class="group text-gray-50 relative w-64 overflow-hidden">
+      <TopNavButton class="absolute top-0 z-20">
         {{ mainBtn }}
       </TopNavButton>
       <div class="absolute h-full bg-blue-600 w-full top-0"></div>
@@ -44,10 +44,10 @@
       </h2>
 
       <div class="flex gap-5 mt-5">
-        <RoundedButton class="transition duration-300 bg-orange-500 border-4 border-orange-500 hover:bg-transparent text-white hover:text-orange-500">
+        <RoundedButton class="transition duration-500 bg-orange-500 border-4 border-orange-500 hover:bg-transparent text-white hover:text-orange-500">
           Our Vision
         </RoundedButton>
-        <RoundedButton class="transition duration-00 bg-red-500 border-4 border-red-500 hover:bg-transparent text-white hover:text-red-500">
+        <RoundedButton class="transition duration-500 bg-red-500 border-4 border-red-500 hover:bg-transparent text-white hover:text-red-500">
           Our Impact
         </RoundedButton>
       </div>
