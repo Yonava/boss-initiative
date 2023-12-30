@@ -1,76 +1,41 @@
 <template>
-
-  <main class="flex items-center h-[100vh] justify-center w-full flex-col fixed z-20">
-    <img
-      class="opacity-0 w-[800px]"
-      src="/nh.svg"
-      ref="circle"
-    />
-  </main>
-
-  <div ref="component">
-    <div class="w-full h-[100vh] bg-blue-500"></div>
-    <main class="flex items-center bg-red-600 justify-center h-[100vh] flex-col relative">
-      <img
-        class="opacity-0 w-[800px]"
-        src="/nh.svg"
-        ref="cir"
-      />
-    </main>
-    <div class="w-full h-[25vh] bg-orange-500"></div>
+  <div>
+    <div class="w-full h-[300vh] relative grid place-items-center bg-blue-500 flex">
+      <div class="absolute top-0 grid place-items-center p-10">
+        <p class="my-5 text-white text-2xl">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor sint laborum laudantium doloremque repellendus ut corporis consectetur? Quisquam amet harum tempore doloremque repudiandae ullam fugiat. Odit quibusdam sequi non laboriosam. Repellendus quidem at blanditiis accusamus consequatur magni ipsa consequuntur ut exercitationem maiores sint ea expedita, amet qui officiis vel ex est? Possimus nostrum veritatis recusandae ipsum aspernatur et saepe? Harum cum sed blanditiis modi officia assumenda explicabo adipisci ipsam, quam incidunt voluptate nisi asperiores, ipsa corrupti, temporibus ab repellendus esse sunt culpa amet perferendis labore atque! Reprehenderit, magni nulla, temporibus animi cupiditate quos quidem aut, hic eveniet eaque impedit nesciunt?
+        </p>
+        <img
+          class="w-[800px]"
+          src="/nh.svg"
+          ref="imgAbs"
+        />
+      </div>
+    </div>
   </div>
-
-  <div class="flex items-center h-[100vh] flex-col">
-    <h1 class="text-6xl font-bold">
-      LET US GO BY THE NUMBERS
-    </h1>
-  </div>
-  <div class="flex items-center justify-center h-[100vh] flex-col"></div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 
-const circle = ref()
-const cir = ref()
-const component = ref()
+const imgAbs = ref()
+const yOffset = ref(0)
+const lastScrollY = ref(1400)
 
 const range = {
+  y: [1400, 2000],
   scale: [1, 15],
-  y: [1040, 1500],
-  skew: [0, -200]
 }
 
-
-document.addEventListener('scroll', (e) => {
-  console.log(window.scrollY)
-  if (!circle.value.style) return
-  const y = window.scrollY
-  if (y < range.y[0]) {
-    circle.value.style.scale = range.scale[0]
-    circle.value.style.transform = `translateY(${range.skew[0]}px)`
-    circle.value.style.opacity = 0
-    cir.value.style.opacity = 1
-    return
-  }
-
-  if (y > range.y[1]) {
-    circle.value.style.scale = range.scale[1]
-    circle.value.style.transform = `translateY(${range.skew[1]}px)`
-    component.value.style.opacity = 0
-    circle.value.style.opacity = 0
-    return
-  }
-
-  component.value.style.opacity = 1
-  cir.value.style.opacity = 0
-  circle.value.style.opacity = 1
-  const inRange = window.scrollY - range.y[0]
-  const interval = range.y[1] - range.y[0]
-  const percentage = inRange / interval
-  const scalar = (range.scale[1] - range.scale[0]) * percentage + range.scale[0]
-  const skewness = (range.skew[1] - range.skew[0]) * percentage + range.skew[0]
-  circle.value.style.scale = scalar
-  circle.value.style.transform = `translateY(${skewness}px)`
+document.addEventListener('scroll', () => {
+  // if not in range, do nothing
+  if (window.scrollY < range.y[0]) return (imgAbs.value.style.transform = `translateY(0px) scale(${range.scale[0]})`)
+  if (window.scrollY > range.y[1]) return (imgAbs.value.style.transform = `translateY(${range.y[1] - range.y[0]}px) scale(${range.scale[1]})`)
+  const change = window.scrollY - lastScrollY.value
+  const percentage = (window.scrollY - range.y[0]) / (range.y[1] - range.y[0])
+  const scale = range.scale[0] + percentage * (range.scale[1] - range.scale[0])
+  yOffset.value += change
+  imgAbs.value.style.transform = `translateY(${yOffset.value}px) scale(${scale})`
+  lastScrollY.value = window.scrollY
 })
 </script>

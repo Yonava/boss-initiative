@@ -1,31 +1,7 @@
 <template>
 
-  <div class="absolute left-0 p-6 z-40">
-    <img
-      src="../assets/boss_logo.png"
-      alt="boss initiative logo"
-      class="w-80"
-    />
-  </div>
+  <TopNav />
 
-  <div class="absolute right-0 top-0 flex z-40">
-    <TopNavButton
-      v-for="btn in btns"
-      :key="btn"
-      class="hover:bg-blue-800 hover:text-white transition duration-500"
-    >
-      {{ btn }}
-    </TopNavButton>
-    <div class="group text-gray-50 relative w-64 overflow-hidden">
-      <TopNavButton class="absolute top-0 z-20">
-        {{ mainBtn }}
-      </TopNavButton>
-      <div class="absolute h-full bg-blue-600 w-full top-0"></div>
-      <div
-        class="absolute h-full bg-blue-800 w-full transition duration-500 ease-in-out -translate-x-[100%] group-hover:-translate-x-0 top-0"
-      ></div>
-    </div>
-  </div>
   <div class="w-[100vw] h-[100vh] relative overflow-hidden">
 
     <!-- title -->
@@ -33,10 +9,10 @@
 
       <h1 class="font-black font-[sans-serif] text-[10rem] leading-[160px] mb-2">
         <span class="bg-gradient-to-r from-red-500 to-blue-600 bg-clip-text text-transparent">
-          Boss
+          BOSS
         </span>
         <br>
-        Initiative
+        INITIATIVE
       </h1>
 
       <h2 class="font-black font-[sans-serif] text-[3rem] leading-[50px] w-[800px] uppercase">
@@ -56,7 +32,7 @@
     <img
       src="../assets/landing_man.png"
       alt="boss initiative logo"
-      class="absolute bottom-0 right-28 w-[900px] transition-all duration-700 cursor-pointer man"
+      class="absolute bottom-0 right-0 w-[800px] transition-all duration-700 cursor-pointer man"
     />
 
     <div class="absolute bottom-0 w-full h-1/2 bg-gradient-to-t from-blue-500 to-transparent pointer-events-none"></div>
@@ -65,19 +41,17 @@
 
 <script setup lang="ts">
 import RoundedButton from './RoundedButton.vue'
-import TopNavButton from './TopNavButton.vue';
-const btns = ['Learn More', 'About Us']
-const mainBtn = 'Donate'
+import TopNav from './TopNav.vue';
 </script>
 
 <style scoped>
 .man {
   filter: grayscale(100%) drop-shadow(10px 20px 30px rgba(0, 0, 0, 0.5));
-  transform: scale(1.1) translateX(-20px)
+  transform: scale(1) translateX(-20px)
 }
 
 .man:hover {
   filter: grayscale(0%) drop-shadow(10px 10px 10px rgba(0, 0, 0, 0.5));
-  transform: translateX(0px);
+  transform: scale(0.9) translateX(0px) translateY(35px);
 }
 </style>
