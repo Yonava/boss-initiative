@@ -1,31 +1,49 @@
 <template>
-  <div>
-    <div class="w-full h-[400vh] relative bg-blue-500 flex">
+  <div class="relative">
+    <div class="w-full h-[290vh] relative bg-gradient-to-r from-blue-400 to-blue-500 flex z-20">
       <div class="absolute top-0 w-full grid place-items-center">
         <p class="mt-[100px] text-white text-8xl uppercase w-1/2 text-center">
           Facing our issues <span class="font-extrabold">head on</span>
         </p>
-        <img
-          class="w-[800px] mb-[200px]"
-          src="/nh.svg"
-          ref="imgAbs"
-        />
-        <div class="w-full flex px-10 justify-center">
-          <div class="border-2 border-black w-1/3 grid place-items-center">
+        <div class="masker mt-10" ref="imgAbs">
+          <div class="bg-gradient-to-r from-blue-700 to-blue-900 h-full w-[700px] top-0 grid place-items-center">
             <img
-              src="../assets/pie.jpeg"
-              alt=""
-            >
-          </div>
-          <div class="w-1/3"></div>
-          <div class="border-2 border-black w-1/3 grid place-items-center">
-            <img
-              src="../assets/dot.jpeg"
+              class="w-full h-full object-right opacity-15"
+              src="https://imageio.forbes.com/specials-images/imageserve/891326652/COVID-19--novel-coronavirus--jails--prisons--infections--outbreak--pandemic/0x0.jpg?format=jpg&crop=4633,3089,x0,y673,safe&width=960"
               alt=""
             >
           </div>
         </div>
+        <div class="w-full flex px-10 justify-center">
+          <div class="w-1/3">
+            <h3 class="text-white text-center font-bold text-4xl m-6">
+              Pie Chart of NH Prison Population
+            </h3>
+            <img
+              src="../assets/pie.jpeg"
+              alt=""
+              class="w-full"
+            >
+          </div>
+          <div class="w-1/3"></div>
+          <div class="w-1/3">
+            <h3 class="text-white text-center font-bold text-4xl m-6">
+              Bar Chart of NH Prison Population
+            </h3>
+            <img
+              src="../assets/dot.jpeg"
+              alt=""
+              class="w-full"
+            >
+          </div>
+        </div>
       </div>
+    </div>
+
+    <div class="absolute w-full h-[100vh] bg-black top-0">
+      <h1 class="text-6xl font-bold text-white">
+        NH Prison Population
+      </h1>
     </div>
   </div>
 </template>
@@ -54,3 +72,18 @@ document.addEventListener('scroll', () => {
   lastScrollY.value = window.scrollY
 })
 </script>
+
+<style scoped>
+.masker {
+  height: 700px;
+
+  -webkit-mask-size: contain;
+  -webkit-mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  mask-size: contain;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  -webkit-mask-image: url(https://worldpopulationreview.com/state-outlines/nh/outline-nh-1400w.png);
+  mask-image: url(https://worldpopulationreview.com/state-outlines/nh/outline-nh-1400w.png);
+}
+</style>

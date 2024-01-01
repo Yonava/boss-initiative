@@ -5,18 +5,20 @@
   <div class="w-[100vw] h-[100vh] relative overflow-hidden">
 
     <!-- title -->
-    <div class="absolute left-60 top-44 z-30">
+    <div class="absolute left-60 top-44 z-30 uppercase">
 
       <h1 class="font-black font-[sans-serif] text-[10rem] leading-[160px] mb-2">
         <span class="bg-gradient-to-r from-red-500 to-blue-600 bg-clip-text text-transparent">
-          BOSS
+          boss
         </span>
         <br>
-        INITIATIVE
+        <span>
+          initiative
+        </span>
       </h1>
 
-      <h2 class="font-black font-[sans-serif] text-[3rem] leading-[50px] w-[800px] uppercase">
-        Beating the odds and striving for success
+      <h2 class="font-black font-[sans-serif] text-[3rem] leading-[50px] w-[800px]">
+        beating the odds and striving for success
       </h2>
 
       <div class="flex gap-5 mt-5">
@@ -35,7 +37,7 @@
       class="absolute bottom-0 right-0 w-[800px] transition-all duration-700 cursor-pointer man"
     />
 
-    <div class="absolute bottom-0 w-full h-1/2 bg-gradient-to-t from-blue-500 to-transparent pointer-events-none"></div>
+    <div class="absolute bottom-0 w-full h-1/2 bg-gradient-to-r from-blue-400 to-blue-500 bg-gradient-to-t from-opacity-100 to-opacity-0 pointer-events-none"></div>
   </div>
 </template>
 
