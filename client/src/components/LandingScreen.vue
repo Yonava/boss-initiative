@@ -37,7 +37,7 @@
       class="absolute bottom-0 right-0 w-[800px] transition-all duration-700 cursor-pointer man"
     />
 
-    <div class="absolute bottom-0 w-full h-1/2 bg-gradient-to-r from-blue-400 to-blue-500 bg-gradient-to-t from-opacity-100 to-opacity-0 pointer-events-none"></div>
+    <div class="absolute bottom-0 w-full h-1/2 bg-gradient-to-t from-blue-500 to-transparent pointer-events-none"></div>
   </div>
 </template>
 

@@ -1,6 +1,7 @@
 <template>
   <div class="relative">
-    <div class="w-full h-[290vh] relative bg-gradient-to-r from-blue-400 to-blue-500 flex z-20">
+    <div class="w-full h-[290vh] relative bg-blue-500 flex z-20">
+      <div class="absolute top-96 left-96 w-1 h-1 halo rounded-full"></div>
       <div class="absolute top-0 w-full grid place-items-center">
         <p class="mt-[100px] text-white text-8xl uppercase w-1/2 text-center">
           Facing our issues <span class="font-extrabold">head on</span>
@@ -38,12 +39,6 @@
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="absolute w-full h-[100vh] bg-black top-0">
-      <h1 class="text-6xl font-bold text-white">
-        NH Prison Population
-      </h1>
     </div>
   </div>
 </template>
@@ -85,5 +80,12 @@ document.addEventListener('scroll', () => {
   mask-repeat: no-repeat;
   -webkit-mask-image: url(https://worldpopulationreview.com/state-outlines/nh/outline-nh-1400w.png);
   mask-image: url(https://worldpopulationreview.com/state-outlines/nh/outline-nh-1400w.png);
+}
+
+/* make a class that is a light blue halo glow */
+.halo {
+  -webkit-box-shadow:0px 0px 300px 164px rgba(174,206,227,1);
+  -moz-box-shadow: 0px 0px 300px 164px rgba(174,206,227,1);
+  box-shadow: 0px 0px 300px 164px rgba(174,206,227,1);
 }
 </style>
