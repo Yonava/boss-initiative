@@ -1,8 +1,13 @@
 <template>
-  <img
-    class="object-fit"
-    :src="image"
-  >
+  <div>
+    <img
+      v-for="image in imgs"
+      :ref="(el) => imageRefs.push(el)"
+      :key="image"
+      :src="image"
+      class="w-full h-full object-cover transition duration-500 absolute top-0 left-0"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -13,11 +18,26 @@ const props = defineProps<{
   range: number[],
 }>()
 
-const image = ref('')
+const imageRefs = ref<any[]>([])
+
+const styles = {
+  inactive: [
+    'opacity-0',
+    'translate-x-[-100%]',
+    'pointer-events-none',
+  ],
+  active: [
+    'opacity-100',
+    'translate-x-0',
+    'pointer-events-auto',
+  ],
+}
 
 document.addEventListener('scroll', () => {
-  const index = props.range.findIndex((r) => window.scrollY < r)
-  if (index === -1) return (image.value = '')
-  image.value = props.imgs[index]
+  imageRefs.value.forEach((el, i) => {
+    const active = props.range[i] < window.scrollY
+    el.classList.remove(...styles[active ? 'inactive' : 'active'])
+    el.classList.add(...styles[active ? 'active' : 'inactive'])
+  })
 })
 </script>
