@@ -37,6 +37,7 @@ document.addEventListener('scroll', () => {
   imageRefs.value.forEach((el, i) => {
     if (!el) return
     const active = props.range[i] < window.scrollY
+
     el.classList.remove(...styles[active ? 'inactive' : 'active'])
     el.classList.add(...styles[active ? 'active' : 'inactive'])
   })
