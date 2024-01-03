@@ -7,7 +7,12 @@
           Facing our issues <span class="font-extrabold">head on</span>
         </p>
         <div class="masker mt-10" ref="imgAbs">
-          <div class="bg-gradient-to-r from-blue-700 to-blue-900 h-full w-[700px] top-0 grid place-items-center">
+          <div
+            :style="{
+              opacity: showNh ? 1 : 0,
+            }"
+            class="bg-gradient-to-r transition duration-700 from-blue-700 to-blue-900 h-full w-[700px] top-0 grid place-items-center"
+          >
             <ImagePresenter
               :imgs="nhImages.map((i) => i.src)"
               :range="nhImages.map((i) => i.showUntil)"
@@ -52,19 +57,12 @@ const range = {
   scale: [1, 1],
 }
 
-const colorTransition = {
-  range: [1250, 3000],
-  start: [59,130,246],
-  end: [30, 58, 138],
-}
-
-const bgColor = ref([59,130,246])
-
-// rgb(30, 58, 138)
-
 const imgAbs = ref()
 const yOffset = ref(0)
 const lastScrollY = ref(range.y[0])
+
+const x = 3500
+const showNh = ref(true)
 
 // takes in a range and a value and returns the percentage of the value in the range. ie getPercentage([0, 100], 50) => 0.5
 const getPercentage = (range: number[], value: number) => {
@@ -99,12 +97,8 @@ const nhImages = [
 
 document.addEventListener('scroll', () => {
 
-  // update background color
-  // bgColor.value = colorTransition.start.map((c, i) => {
-  //   const percentage = getPercentage(colorTransition.range, window.scrollY)
-  //   const color = getFromPercentage([colorTransition.start[i], colorTransition.end[i]], percentage)
-  //   return Math.round(color)
-  // })
+
+  showNh.value = window.scrollY < x
 
   // if not in range, do nothing
   if (window.scrollY < range.y[0]) return (imgAbs.value.style.transform = `translateY(0px) scale(${range.scale[0]})`)
