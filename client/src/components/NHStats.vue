@@ -1,7 +1,7 @@
 <template>
   <div class="relative">
-    <div class="w-full h-[290vh] relative bg-blue-500 flex z-20">
-      <div class="absolute top-96 left-96 w-1 h-1 halo rounded-full"></div>
+    <div :class="`w-full h-[290vh] relative bg-gradient-to-b from-blue-500 to-black flex z-20`">
+      <!-- <div class="absolute top-96 left-96 w-10 h-10 rounded-full"></div> -->
       <div class="absolute top-0 w-full grid place-items-center">
         <p class="mt-[100px] text-white text-8xl uppercase w-1/2 text-center">
           Facing our issues <span class="font-extrabold">head on</span>
@@ -52,9 +52,35 @@ const range = {
   scale: [1, 1],
 }
 
+const colorTransition = {
+  range: [1250, 3000],
+  start: [59,130,246],
+  end: [30, 58, 138],
+}
+
+const bgColor = ref([59,130,246])
+
+// rgb(30, 58, 138)
+
 const imgAbs = ref()
 const yOffset = ref(0)
 const lastScrollY = ref(range.y[0])
+
+// takes in a range and a value and returns the percentage of the value in the range. ie getPercentage([0, 100], 50) => 0.5
+const getPercentage = (range: number[], value: number) => {
+  if (value < range[0]) return 0
+  if (value > range[1]) return 1
+  const [min, max] = range
+  return (value - min) / (max - min)
+}
+
+// takes in a range and a percentage and returns the value in the range. ie getFromPercentage([0, 100], 0.5) => 50
+const getFromPercentage = (range: number[], percentage: number) => {
+  if (percentage < 0) return range[0]
+  if (percentage > 1) return range[1]
+  const [min, max] = range
+  return min + percentage * (max - min)
+}
 
 const nhImages = [
   {
@@ -72,12 +98,20 @@ const nhImages = [
 ]
 
 document.addEventListener('scroll', () => {
+
+  // update background color
+  // bgColor.value = colorTransition.start.map((c, i) => {
+  //   const percentage = getPercentage(colorTransition.range, window.scrollY)
+  //   const color = getFromPercentage([colorTransition.start[i], colorTransition.end[i]], percentage)
+  //   return Math.round(color)
+  // })
+
   // if not in range, do nothing
   if (window.scrollY < range.y[0]) return (imgAbs.value.style.transform = `translateY(0px) scale(${range.scale[0]})`)
   if (window.scrollY > range.y[1]) return (imgAbs.value.style.transform = `translateY(${range.y[1] - range.y[0]}px) scale(${range.scale[1]})`)
   const change = window.scrollY - lastScrollY.value
-  const percentage = (window.scrollY - range.y[0]) / (range.y[1] - range.y[0])
-  const scale = range.scale[0] + percentage * (range.scale[1] - range.scale[0])
+  const percentage = getPercentage(range.y, window.scrollY)
+  const scale = getFromPercentage(range.scale, percentage)
   yOffset.value += change
   imgAbs.value.style.transform = `translateY(${yOffset.value}px) scale(${scale})`
   lastScrollY.value = window.scrollY
