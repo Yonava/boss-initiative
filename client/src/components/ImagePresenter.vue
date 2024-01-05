@@ -34,13 +34,13 @@ const styles = {
   ],
 }
 
-document.addEventListener('scroll', () => {
-  y.value = window.scrollY
-  imageRefs.value.forEach((el, i) => {
-    if (!el) return
-    const active = props.range[i] < window.scrollY
-    // el.classList.remove(...styles[active ? 'inactive' : 'active'])
-    el.classList.add(...styles[active ? 'active' : 'inactive'])
-  })
-})
+// document.addEventListener('scroll', () => {
+//   y.value = window.scrollY
+//   imageRefs.value.forEach((el, i) => {
+//     if (!el) return
+//     const active = props.range[i] < window.scrollY
+//     el.classList.remove(...styles[active ? 'inactive' : 'active'])
+//     el.classList.add(...styles[active ? 'active' : 'inactive'])
+//   })
+// })
 </script>

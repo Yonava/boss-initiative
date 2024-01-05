@@ -4,7 +4,7 @@ import { defineStore } from 'pinia'
 const prisonPopulation = [{
   name: "Jail",
   value: 1600,
-  color: "#FFC329",
+  color: "#FFF000",
 },
 {
   name: "Parole",

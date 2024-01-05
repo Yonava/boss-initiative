@@ -1,12 +1,16 @@
 <template>
   <div>
-    <apexchart
-      width="500"
-      type="line"
-      stacked="false"
-      :series="LineChartData"
-      :options="LineChartOptions"
-    ></apexchart>
+    <h1 class="text-4xl text-center text-white font-bold mb-10">
+      New Hampshire Incarceration Rates
+    </h1>
+    <div>
+      <apexchart
+        width="600"
+        type="line"
+        :series="LineChartData"
+        :options="LineChartOptions"
+      ></apexchart>
+    </div>
   </div>
 </template>
 
@@ -20,43 +24,29 @@ const LineChartData = [
 ];
 
 const LineChartOptions = {
-  dataLabels: {
-    enabled: true,
-  },
   colors: ["#FF1654"],
+  toolbar: {
+    show: false,
+  },
   stroke: {
     curve: "smooth",
   },
   xaxis: {
     categories: [1980, 1985, 1990, 1995, 2000, 2005, 2010, 2015, 2020],
+    labels: {
+      style: {
+        colors: "#FFF",
+      },
+    },
   },
   yaxis: [
     {
-      axisTicks: {
-        show: true,
-      },
-      axisBorder: {
-        show: true,
-        color: "#FF1654",
-      },
       labels: {
         style: {
-          colors: "#FF1654",
-        },
-      },
-      title: {
-        text: "Incarceration Rates",
-        style: {
-          color: "#FF1654",
+          colors: "#FFF",
         },
       },
     },
   ],
-  legend: {
-    show: true,
-    position: "top",
-    horizontalAlign: "left",
-    offsetX: 40,
-  },
 };
 </script>

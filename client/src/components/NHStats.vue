@@ -40,6 +40,7 @@
             <div class="h-[1500px]">
               <NHPrisonPopulation />
             </div>
+            <NHPrisonIncreaseVisual />
           </div>
           <div class="w-1/3"></div>
           <div class="w-1/3 h-full">
@@ -60,6 +61,7 @@ import ImagePresenter from './ImagePresenter.vue'
 import NHPrisonPopulation from './NHPrisonPopulation.vue'
 import NHPrisonPopulationVisual from './NHPrisonPopulationVisual.vue'
 import NHPrisonIncrease from './NHPrisonIncrease.vue'
+import NHPrisonIncreaseVisual from './NHPrisonIncreaseVisual.vue'
 
 const range = [1250, 4000] as const
 
