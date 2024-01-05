@@ -15,11 +15,19 @@
 </template>
 
 <script setup lang="ts">
+import { useDataStore } from "../stores/data";
+
+const { prisonRates: data, setSelectedYear } = useDataStore();
+
+setTimeout(() => {
+  setSelectedYear(2015);
+}, 5000);
+
 const LineChartData = [
   {
     name: "New Hampshire Prison Incarceration Rates",
     type: "line",
-    data: [450, 730, 1260, 2110, 2340, 2460, 2745, 2745, 2300],
+    data: data.map((d) => d.value),
   },
 ];
 
@@ -32,7 +40,7 @@ const LineChartOptions = {
     curve: "smooth",
   },
   xaxis: {
-    categories: [1980, 1985, 1990, 1995, 2000, 2005, 2010, 2015, 2020],
+    categories: data.map((d) => d.year),
     labels: {
       style: {
         colors: "#FFF",

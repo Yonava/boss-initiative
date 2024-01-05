@@ -1,6 +1,6 @@
 <template>
   <div class="relative">
-    <div :class="`w-full h-[400vh] relative bg-gradient-to-b from-blue-500 to-black flex z-20`">
+    <div :class="`w-full h-[350vh] relative bg-gradient-to-b from-blue-500 to-black flex z-20`">
       <!-- <div class="absolute top-96 left-96 w-10 h-10 rounded-full"></div> -->
       <div class="absolute top-0 w-full grid place-items-center">
         <p class="mt-[100px] text-white text-8xl uppercase w-1/2 text-center">
@@ -27,7 +27,7 @@
 
         <img
           :style="{
-            transform: `translateY(${yOffset - 750}px)`,
+            transform: `translateY(calc(${yOffset}px - 72.5%))`,
             opacity: showNh ? 0.2 : 0,
           }"
           class="absolute w-[600px] grayscale brightness-200 blur-2xl transition-opacity duration-700 delay-300"
@@ -37,14 +37,14 @@
 
         <div class="w-full flex px-10 justify-center h-full">
           <div class="w-1/3 h-full">
-            <div class="h-[1500px]">
+            <div class="h-[1100px]">
               <NHPrisonPopulation />
             </div>
             <NHPrisonIncreaseVisual />
           </div>
           <div class="w-1/3"></div>
           <div class="w-1/3 h-full">
-            <div class="h-[1500px]">
+            <div class="h-[1000px]">
               <NHPrisonPopulationVisual />
             </div>
             <NHPrisonIncrease />
@@ -63,7 +63,7 @@ import NHPrisonPopulationVisual from './NHPrisonPopulationVisual.vue'
 import NHPrisonIncrease from './NHPrisonIncrease.vue'
 import NHPrisonIncreaseVisual from './NHPrisonIncreaseVisual.vue'
 
-const range = [1250, 4000] as const
+const range = [1250, 3500] as const
 
 const nh = ref()
 const yOffset = ref(0)

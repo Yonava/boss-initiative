@@ -27,6 +27,46 @@ const prisonPopulation = [{
   color: "#FF0000",
 }] as const
 
+const prisonRates = [{
+    year: 1980,
+    value: 450,
+  },
+  {
+    year: 1985,
+    value: 730,
+  },
+  {
+    year: 1990,
+    value: 1260,
+  },
+  {
+    year: 1995,
+    value: 2110,
+  },
+  {
+    year: 2000,
+    value: 2340,
+  },
+  {
+    year: 2005,
+    value: 2460,
+  },
+  {
+    year: 2010,
+    value: 2745,
+  },
+  {
+    year: 2015,
+    value: 2745,
+  },
+  {
+    year: 2020,
+    value: 2300,
+}] as const
+
+
+type PrisonRate = typeof prisonRates[number]
+type Year = PrisonRate['year']
 type PrisonPopulation = typeof prisonPopulation[number]
 
 export const useDataStore = defineStore('data', () => {
@@ -35,9 +75,17 @@ export const useDataStore = defineStore('data', () => {
     selectedPrisonPopulation.value = value
   }
 
+  const selectedYear = ref<Year | null>(null)
+  const setSelectedYear = (value: Year | null) => {
+    selectedYear.value = value
+  }
+
   return {
     prisonPopulation,
     selectedPrisonPopulation,
     setSelectedPrisonPopulation,
+    selectedYear,
+    setSelectedYear,
+    prisonRates,
   }
 })
