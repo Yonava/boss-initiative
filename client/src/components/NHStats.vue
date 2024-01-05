@@ -6,7 +6,11 @@
         <p class="mt-[100px] text-white text-8xl uppercase w-1/2 text-center">
           Facing our issues <span class="font-extrabold">head on</span>
         </p>
-        <div class="masker mt-10" ref="imgAbs">
+
+        <div
+          class="masker mt-10 z-20 h-[700px]"
+          ref="nh"
+        >
           <div
             :style="{
               opacity: showNh ? 1 : 0,
@@ -20,27 +24,24 @@
             />
           </div>
         </div>
+
+        <img
+          :style="{
+            transform: `translateY(${yOffset - 200}px)`,
+            opacity: showNh ? 0.2 : 0,
+          }"
+          class="absolute w-[600px] grayscale brightness-200 blur-2xl transition-opacity duration-700 delay-300"
+          src="https://worldpopulationreview.com/state-outlines/nh/outline-nh-1400w.png"
+          alt=""
+        >
+
         <div class="w-full flex px-10 justify-center">
           <div class="w-1/3">
-            <h3 class="text-white text-center font-bold text-4xl m-6">
-              Pie Chart of NH Prison Population
-            </h3>
-            <img
-              src="../assets/pie.jpeg"
-              alt=""
-              class="w-full"
-            >
+            <NHPrisonPopulation />
           </div>
           <div class="w-1/3"></div>
           <div class="w-1/3">
-            <h3 class="text-white text-center font-bold text-4xl m-6">
-              Bar Chart of NH Prison Population
-            </h3>
-            <img
-              src="../assets/dot.jpeg"
-              alt=""
-              class="w-full"
-            >
+
           </div>
         </div>
       </div>
@@ -51,21 +52,22 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import ImagePresenter from './ImagePresenter.vue'
+import NHPrisonPopulation from './NHPrisonPopulation.vue'
 
 const range = {
   y: [1250, 3000],
   scale: [1, 1],
-}
+} as const
 
-const imgAbs = ref()
+const nh = ref()
 const yOffset = ref(0)
-const lastScrollY = ref(range.y[0])
+const lastScrollY = ref<number>(range.y[0])
 
-const x = 3500
+const hideNhAt = 3500
 const showNh = ref(true)
 
 // takes in a range and a value and returns the percentage of the value in the range. ie getPercentage([0, 100], 50) => 0.5
-const getPercentage = (range: number[], value: number) => {
+const getPercentage = (range: readonly [number, number], value: number) => {
   if (value < range[0]) return 0
   if (value > range[1]) return 1
   const [min, max] = range
@@ -73,7 +75,7 @@ const getPercentage = (range: number[], value: number) => {
 }
 
 // takes in a range and a percentage and returns the value in the range. ie getFromPercentage([0, 100], 0.5) => 50
-const getFromPercentage = (range: number[], percentage: number) => {
+const getFromPercentage = (range: readonly [number, number], percentage: number) => {
   if (percentage < 0) return range[0]
   if (percentage > 1) return range[1]
   const [min, max] = range
@@ -96,26 +98,22 @@ const nhImages = [
 ]
 
 document.addEventListener('scroll', () => {
-
-
-  showNh.value = window.scrollY < x
+  showNh.value = window.scrollY < hideNhAt
 
   // if not in range, do nothing
-  if (window.scrollY < range.y[0]) return (imgAbs.value.style.transform = `translateY(0px) scale(${range.scale[0]})`)
-  if (window.scrollY > range.y[1]) return (imgAbs.value.style.transform = `translateY(${range.y[1] - range.y[0]}px) scale(${range.scale[1]})`)
+  if (window.scrollY < range.y[0]) return (nh.value.style.transform = `translateY(0px) scale(${range.scale[0]})`)
+  if (window.scrollY > range.y[1]) return (nh.value.style.transform = `translateY(${range.y[1] - range.y[0]}px) scale(${range.scale[1]})`)
   const change = window.scrollY - lastScrollY.value
   const percentage = getPercentage(range.y, window.scrollY)
   const scale = getFromPercentage(range.scale, percentage)
   yOffset.value += change
-  imgAbs.value.style.transform = `translateY(${yOffset.value}px) scale(${scale})`
+  nh.value.style.transform = `translateY(${yOffset.value}px) scale(${scale})`
   lastScrollY.value = window.scrollY
 })
 </script>
 
 <style scoped>
 .masker {
-  height: 700px;
-
   -webkit-mask-size: contain;
   -webkit-mask-position: center;
   -webkit-mask-repeat: no-repeat;
