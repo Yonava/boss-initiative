@@ -1,7 +1,7 @@
 <template>
   <div>
     <img
-      v-for="image in imgs"
+      v-for="(image, i) in imgs"
       :ref="(el) => imageRefs.push(el)"
       :key="image"
       :src="image"
@@ -19,6 +19,7 @@ const props = defineProps<{
 }>()
 
 const imageRefs = ref<any[]>([])
+const y = ref(0)
 
 const styles = {
   inactive: [
@@ -34,11 +35,11 @@ const styles = {
 }
 
 document.addEventListener('scroll', () => {
+  y.value = window.scrollY
   imageRefs.value.forEach((el, i) => {
     if (!el) return
     const active = props.range[i] < window.scrollY
-
-    el.classList.remove(...styles[active ? 'inactive' : 'active'])
+    // el.classList.remove(...styles[active ? 'inactive' : 'active'])
     el.classList.add(...styles[active ? 'active' : 'inactive'])
   })
 })

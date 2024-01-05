@@ -8,7 +8,7 @@
         </p>
 
         <div
-          class="masker mt-10 z-20 h-[700px]"
+          class="masker mt-10 z-10 h-[700px]"
           ref="nh"
         >
           <div
@@ -27,7 +27,7 @@
 
         <img
           :style="{
-            transform: `translateY(${yOffset - 200}px)`,
+            transform: `translateY(${yOffset - 250}px)`,
             opacity: showNh ? 0.2 : 0,
           }"
           class="absolute w-[600px] grayscale brightness-200 blur-2xl transition-opacity duration-700 delay-300"
@@ -41,7 +41,7 @@
           </div>
           <div class="w-1/3"></div>
           <div class="w-1/3">
-
+            <NHPrisonPopulationVisual />
           </div>
         </div>
       </div>
@@ -53,6 +53,7 @@
 import { ref } from 'vue'
 import ImagePresenter from './ImagePresenter.vue'
 import NHPrisonPopulation from './NHPrisonPopulation.vue'
+import NHPrisonPopulationVisual from './NHPrisonPopulationVisual.vue';
 
 const range = {
   y: [1250, 3000],
@@ -93,7 +94,7 @@ const nhImages = [
   },
   {
     showUntil: 1750,
-    src: 'https://www.aclu.org/wp-content/uploads/2019/09/web19-solitary-cell-1160x768_0-800x533.jpg'
+    src: 'https://federalcriminaldefenseattorney.com/wp-content/uploads/2022/02/Medium-Security-Prison-scaled.jpeg'
   }
 ]
 

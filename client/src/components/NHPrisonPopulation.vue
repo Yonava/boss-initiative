@@ -6,14 +6,14 @@
     <apexchart
       width="700"
       type="pie"
-      @dataPointMouseEnter="hi"
+      @dataPointMouseEnter="setter"
       :series="series"
       :options="PieChartOptions"
     ></apexchart>
-    <div class="flex flex-wrap gap-4">
+    <div class="flex flex-wrap gap-4 justify-center">
       <div
-        v-for="entry in data"
-        class="flex bg-blue-600 px-3 py-2 rounded-lg items-center"
+        v-for="entry in prisonPopulation"
+        class="flex bg-blue-600 px-3 py-2 rounded-lg items-center hover:bg-blue-700 cursor-pointer"
       >
         <div :class="`w-6 h-6 bg-[${entry.color}] rounded-full mr-2 mt-1`"></div>
         <p class="text-white text-2xl font-bold text-center">
@@ -24,39 +24,17 @@
   </div>
 </template>
 <script setup lang="ts">
-const data = [
-  {
-    name: "Jail",
-    value: 1600,
-    color: "#FFC329",
-  },
-  {
-    name: "Parole",
-    value: 2000,
-    color: "#A4E51B",
-  },
-  {
-    name: "State Prison",
-    value: 2100,
-    color: "#E23110",
-  },
-  {
-    name: "Probation",
-    value: 3600,
-    color: "#FF7A1A",
-  },
-  {
-    name: "Federal Prison",
-    value: 420,
-    color: "#FF0000",
-  },
-];
+import { useDataStore } from '../stores/data'
 
-const series = data.map(({ value }) => value);
-const colors = data.map(({ color }) => color);
-const labels = data.map(({ name }) => name);
+const { prisonPopulation, setSelectedPrisonPopulation } = useDataStore();
 
-const hi = (...args: any) => console.log(series[args[2].dataPointIndex]);
+const series = prisonPopulation.map(({ value }) => value);
+const colors = prisonPopulation.map(({ color }) => color);
+const labels = prisonPopulation.map(({ name }) => name);
+
+const setter = (...args: any[]) => {
+  setSelectedPrisonPopulation(prisonPopulation[args[2].dataPointIndex])
+};
 
 const PieChartOptions = {
   labels,
@@ -64,12 +42,6 @@ const PieChartOptions = {
     enabled: true,
     formatter: () => "",
   },
-  // theme: {
-  //   monochrome: {
-  //     enabled: true,
-  //     color: "#FF0000"
-  //   },
-  // },
   colors,
   plotOptions: {
     pie: {
