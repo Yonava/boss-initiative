@@ -1,6 +1,6 @@
 <template>
   <div class="relative">
-    <div :class="`w-full h-[290vh] relative bg-gradient-to-b from-blue-500 to-black flex z-20`">
+    <div :class="`w-full h-[400vh] relative bg-gradient-to-b from-blue-500 to-black flex z-20`">
       <!-- <div class="absolute top-96 left-96 w-10 h-10 rounded-full"></div> -->
       <div class="absolute top-0 w-full grid place-items-center">
         <p class="mt-[100px] text-white text-8xl uppercase w-1/2 text-center">
@@ -8,7 +8,7 @@
         </p>
 
         <div
-          class="masker mt-10 z-10 h-[700px]"
+          class="masker mt-10 translate-z-0 z-10 h-[700px]"
           ref="nh"
         >
           <div
@@ -27,7 +27,7 @@
 
         <img
           :style="{
-            transform: `translateY(${yOffset - 250}px)`,
+            transform: `translateY(${yOffset - 750}px)`,
             opacity: showNh ? 0.2 : 0,
           }"
           class="absolute w-[600px] grayscale brightness-200 blur-2xl transition-opacity duration-700 delay-300"
@@ -35,13 +35,18 @@
           alt=""
         >
 
-        <div class="w-full flex px-10 justify-center">
-          <div class="w-1/3">
-            <NHPrisonPopulation />
+        <div class="w-full flex px-10 justify-center h-full">
+          <div class="w-1/3 h-full">
+            <div class="h-[1500px]">
+              <NHPrisonPopulation />
+            </div>
           </div>
           <div class="w-1/3"></div>
-          <div class="w-1/3">
-            <NHPrisonPopulationVisual />
+          <div class="w-1/3 h-full">
+            <div class="h-[1500px]">
+              <NHPrisonPopulationVisual />
+            </div>
+            <NHPrisonIncrease />
           </div>
         </div>
       </div>
@@ -53,35 +58,17 @@
 import { ref } from 'vue'
 import ImagePresenter from './ImagePresenter.vue'
 import NHPrisonPopulation from './NHPrisonPopulation.vue'
-import NHPrisonPopulationVisual from './NHPrisonPopulationVisual.vue';
+import NHPrisonPopulationVisual from './NHPrisonPopulationVisual.vue'
+import NHPrisonIncrease from './NHPrisonIncrease.vue'
 
-const range = {
-  y: [1250, 3000],
-  scale: [1, 1],
-} as const
+const range = [1250, 4000] as const
 
 const nh = ref()
 const yOffset = ref(0)
-const lastScrollY = ref<number>(range.y[0])
+const lastScrollY = ref<number>(range[0])
 
-const hideNhAt = 3500
+const hideNhAt = range[1] + 600
 const showNh = ref(true)
-
-// takes in a range and a value and returns the percentage of the value in the range. ie getPercentage([0, 100], 50) => 0.5
-const getPercentage = (range: readonly [number, number], value: number) => {
-  if (value < range[0]) return 0
-  if (value > range[1]) return 1
-  const [min, max] = range
-  return (value - min) / (max - min)
-}
-
-// takes in a range and a percentage and returns the value in the range. ie getFromPercentage([0, 100], 0.5) => 50
-const getFromPercentage = (range: readonly [number, number], percentage: number) => {
-  if (percentage < 0) return range[0]
-  if (percentage > 1) return range[1]
-  const [min, max] = range
-  return min + percentage * (max - min)
-}
 
 const nhImages = [
   {
@@ -98,18 +85,18 @@ const nhImages = [
   }
 ]
 
+const updateNhPosition = () => {
+  if (window.scrollY < range[0]) return (nh.value.style.transform = `translateY(0px)`)
+  if (window.scrollY > range[1]) return (nh.value.style.transform = `translateY(${range[1] - range[0]}px)`)
+  const change = window.scrollY - lastScrollY.value
+  yOffset.value += change
+  nh.value.style.transform = `translateY(${yOffset.value}px)`
+  lastScrollY.value = window.scrollY
+}
+
 document.addEventListener('scroll', () => {
   showNh.value = window.scrollY < hideNhAt
-
-  // if not in range, do nothing
-  if (window.scrollY < range.y[0]) return (nh.value.style.transform = `translateY(0px) scale(${range.scale[0]})`)
-  if (window.scrollY > range.y[1]) return (nh.value.style.transform = `translateY(${range.y[1] - range.y[0]}px) scale(${range.scale[1]})`)
-  const change = window.scrollY - lastScrollY.value
-  const percentage = getPercentage(range.y, window.scrollY)
-  const scale = getFromPercentage(range.scale, percentage)
-  yOffset.value += change
-  nh.value.style.transform = `translateY(${yOffset.value}px) scale(${scale})`
-  lastScrollY.value = window.scrollY
+  window.requestAnimationFrame(updateNhPosition)
 })
 </script>
 
