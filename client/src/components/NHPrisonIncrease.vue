@@ -5,6 +5,7 @@
     </h1>
     <div>
       <apexchart
+        @mouseMove="setter"
         width="600"
         type="line"
         :series="LineChartData"
@@ -19,9 +20,10 @@ import { useDataStore } from "../stores/data";
 
 const { prisonRates: data, setSelectedYear } = useDataStore();
 
-setTimeout(() => {
-  setSelectedYear(2015);
-}, 5000);
+const setter = (...args: any) => {
+  console.log(args[2].dataPointIndex);
+  setSelectedYear(data[args[2].dataPointIndex].year);
+};
 
 const LineChartData = [
   {
