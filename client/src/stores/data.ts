@@ -77,6 +77,7 @@ export const useDataStore = defineStore('data', () => {
 
   const selectedYear = ref<Year | null>(null)
   const setSelectedYear = (value: Year | null) => {
+    if (value === selectedYear.value) return
     selectedYear.value = value
   }
 

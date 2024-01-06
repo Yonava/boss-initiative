@@ -5,11 +5,14 @@
     </h2>
 
     <h1 class="text-[12rem] leading-[10rem] font-black">
-      {{ percent }}%
+      {{ percentDisplay }}%
     </h1>
 
     <h2 class="mt-12 text-4xl font-bold">
-      From {{ firstYear }} to {{ year }}
+      From {{ firstYear }} to
+      <span :class="`text-${ year !== latestYear ? 'pink-600' : 'white'  }`">
+        {{ year }}
+      </span>
     </h2>
   </div>
 </template>
@@ -18,6 +21,7 @@
 import { computed } from 'vue'
 import { useDataStore } from '../stores/data'
 import { storeToRefs } from 'pinia'
+import { useCounter } from '../useCounter'
 
 const { prisonRates } = useDataStore()
 const { selectedYear } = storeToRefs(useDataStore())
@@ -35,4 +39,6 @@ const percent = computed(() => {
 
   return Math.round(((yearValue - firstYearValue) / firstYearValue) * 100)
 })
+
+const percentDisplay = useCounter(percent)
 </script>
