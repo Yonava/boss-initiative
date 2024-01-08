@@ -4,13 +4,12 @@ import {
   type Ref
 } from 'vue'
 
-export const useCounter = (inputNumber: Ref<number>, durationMs: number = 500) => {
+export const useCounter = (inputNumber: Ref<number>, durationMs: number = 700) => {
   const outputNumber = ref(inputNumber.value)
   const exactNumber = ref(inputNumber.value)
 
   const runAnimation = (newValue: number, oldValue: number) => {
     const change = newValue - oldValue
-    if (change === 0) return
     const updateIntervalMs = 10
     const incrementBy = change / durationMs * updateIntervalMs
 

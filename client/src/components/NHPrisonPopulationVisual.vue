@@ -15,19 +15,17 @@
         = 100 People
       </span>
     </div>
-    <div class="flex flex-wrap gap-2 mt-6">
-      <div
-        v-for="color of visualizer"
-        :class="`w-10 h-10 bg-[${color === selectedColor ? color : 'white'}] masker`"
-      ></div>
-    </div>
+    <img
+      :src="image"
+      class="mt-5"
+    >
   </div>
 </template>
 
 <script setup lang="ts">
 import { useDataStore } from '../stores/data'
 import { storeToRefs } from 'pinia';
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 const { prisonPopulation } = useDataStore();
 const { selectedPrisonPopulation } = storeToRefs(useDataStore());
@@ -36,23 +34,20 @@ const totalPopulation = computed(() => {
   return prisonPopulation.reduce((acc, { value }) => acc + value, 0);
 })
 
-const visualizer = computed(() => {
-  return prisonPopulation.reduce((acc, { value, color }) => {
-    const num = Math.floor(value / 100);
-    for (let i = 0; i < num; i++) {
-      acc.push(color)
-    }
-    return acc;
-  }, [] as string[])
-})
-
-const selectedColor = computed(() => {
-  return selectedPrisonPopulation.value?.color ?? '#fff';
-})
-
 const number = computed(() => {
   return selectedPrisonPopulation.value?.value ?? totalPopulation.value;
 })
+
+const image = ref('');
+
+watch(selectedPrisonPopulation, async (newState) => {
+  if (newState) {
+    const index = prisonPopulation.findIndex((p) => p.name === newState.name);
+    image.value = (await import(`../assets/ip${index + 1}.svg`)).default;
+  } else {
+    image.value = (await import(`../assets/ip0.svg`)).default;
+  }
+}, { immediate: true })
 
 const title = computed(() => {
   switch (selectedPrisonPopulation.value?.name) {
@@ -71,16 +66,3 @@ const title = computed(() => {
   }
 })
 </script>
-
-<style scoped>
-.masker {
-  -webkit-mask-size: contain;
-  -webkit-mask-position: center;
-  -webkit-mask-repeat: no-repeat;
-  mask-size: contain;
-  mask-position: center;
-  mask-repeat: no-repeat;
-  -webkit-mask-image: url(../assets/person.png);
-  mask-image: url(../assets/person.png);
-}
-</style>

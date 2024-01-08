@@ -56,7 +56,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import { useWindowScroll } from '@vueuse/core'
 import ImagePresenter from './ImagePresenter.vue'
 import NHPrisonPopulation from './NHPrisonPopulation.vue'
 import NHPrisonPopulationVisual from './NHPrisonPopulationVisual.vue'
@@ -71,6 +72,8 @@ const lastScrollY = ref<number>(range[0])
 
 const hideNhAt = range[1] + 600
 const showNh = ref(true)
+
+const { y } = useWindowScroll()
 
 const nhImages = [
   {
@@ -88,6 +91,7 @@ const nhImages = [
 ]
 
 const updateNhPosition = () => {
+  showNh.value = window.scrollY < hideNhAt
   if (window.scrollY < range[0]) return (nh.value.style.transform = `translateY(0px)`)
   if (window.scrollY > range[1]) return (nh.value.style.transform = `translateY(${range[1] - range[0]}px)`)
   const change = window.scrollY - lastScrollY.value
@@ -96,8 +100,7 @@ const updateNhPosition = () => {
   lastScrollY.value = window.scrollY
 }
 
-document.addEventListener('scroll', () => {
-  showNh.value = window.scrollY < hideNhAt
+watch(y, () => {
   window.requestAnimationFrame(updateNhPosition)
 })
 </script>

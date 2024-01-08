@@ -48,7 +48,7 @@
 <script setup lang="ts">
 import TopNavButton from './TopNavButton.vue';
 import PopoverCard from './PopoverCard.vue';
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 
 type NavButton = {
   text: string,
@@ -77,7 +77,6 @@ const refs: any[] = []
 
 const setActive = (index: number) => {
   highlighted.value = btns[index]
-  console.log(refs[index])
   active.value = true
   popoverLocation.value = refs[index].getBoundingClientRect()
 }
