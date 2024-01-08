@@ -1,62 +1,52 @@
 <template>
-  <div class="relative">
-    <div :class="`w-full h-[350vh] relative bg-gradient-to-b from-blue-500 to-black flex z-20`">
-      <!-- <div class="absolute top-96 left-96 w-10 h-10 rounded-full"></div> -->
-      <div class="absolute top-0 w-full grid place-items-center">
-        <p class="mt-[100px] text-white text-8xl uppercase w-1/2 text-center">
-          Facing our issues <span class="font-extrabold">head on</span>
-        </p>
 
-        <div
-          class="masker mt-10 translate-z-0 z-10 h-[700px]"
-          ref="nh"
-        >
-          <div
-            :style="{
-              opacity: showNh ? 1 : 0,
-            }"
-            class="bg-gradient-to-r transition duration-700 from-blue-700 to-blue-900 h-full w-[700px] top-0 grid place-items-center"
-          >
-            <ImagePresenter
-              :imgs="nhImages.map((i) => i.src)"
-              :range="nhImages.map((i) => i.showUntil)"
-              class="w-full h-full opacity-15 object-cover"
-            />
-          </div>
-        </div>
+  <div class="w-full bg-blue-500 pt-[200px] grid place-items-center">
+    <h1 class="absolute z-20 text-white text-8xl uppercase w-1/2 text-center">
+      Facing our issues <span class="font-extrabold">head on</span>
+    </h1>
+  </div>
 
+  <div
+    ref="component"
+    class="relative w-full h-[350vh] bg-gradient-to-b from-blue-500 to-black flex"
+  >
+    <div class="absolute w-full h-[100vh] flex justify-center items-center">
+      <div
+        ref="nh"
+        class="transition-opacity duration-700"
+      >
         <img
-          :style="{
-            transform: `translateY(calc(${yOffset}px - 72.5%))`,
-            opacity: showNh ? 0.2 : 0,
-          }"
-          class="absolute w-[600px] grayscale brightness-200 blur-2xl transition-opacity duration-700 delay-300"
+          class="absolute translate-x-10 -translate-y-16 w-[600px] grayscale brightness-200 blur-2xl opacity-20"
           src="https://worldpopulationreview.com/state-outlines/nh/outline-nh-1400w.png"
-          alt=""
         >
-
-        <div class="w-full flex px-10 justify-center h-full">
-          <div class="w-1/3 h-full">
-            <div class="h-[1100px]">
-              <NHPrisonPopulation />
-            </div>
-            <NHPrisonIncreaseVisual />
-          </div>
-          <div class="w-1/3"></div>
-          <div class="w-1/3 h-full">
-            <div class="h-[1000px]">
-              <NHPrisonPopulationVisual />
-            </div>
-            <NHPrisonIncrease />
-          </div>
+        <div
+          class="masker h-[700px]"
+        >
+          <div class="bg-gradient-to-r from-blue-700 to-blue-900 h-full w-[700px]"></div>
         </div>
+      </div>
+    </div>
+
+    <div class="w-full h-full mt-[100vh] flex px-10 justify-center">
+      <div class="w-1/3 h-full">
+        <div class="h-[1100px]">
+          <NHPrisonPopulation />
+        </div>
+        <NHPrisonIncreaseVisual />
+      </div>
+      <div class="w-1/3"></div>
+      <div class="w-1/3 h-full">
+        <div class="h-[1000px]">
+          <NHPrisonPopulationVisual />
+        </div>
+        <NHPrisonIncrease />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { useWindowScroll } from '@vueuse/core'
 import ImagePresenter from './ImagePresenter.vue'
 import NHPrisonPopulation from './NHPrisonPopulation.vue'
@@ -64,14 +54,8 @@ import NHPrisonPopulationVisual from './NHPrisonPopulationVisual.vue'
 import NHPrisonIncrease from './NHPrisonIncrease.vue'
 import NHPrisonIncreaseVisual from './NHPrisonIncreaseVisual.vue'
 
-const range = [1250, 3500] as const
-
 const nh = ref()
-const yOffset = ref(0)
-const lastScrollY = ref<number>(range[0])
-
-const hideNhAt = range[1] + 600
-const showNh = ref(true)
+const component = ref()
 
 const { y } = useWindowScroll()
 
@@ -90,19 +74,41 @@ const nhImages = [
   }
 ]
 
-const updateNhPosition = () => {
-  showNh.value = window.scrollY < hideNhAt
-  if (window.scrollY < range[0]) return (nh.value.style.transform = `translateY(0px)`)
-  if (window.scrollY > range[1]) return (nh.value.style.transform = `translateY(${range[1] - range[0]}px)`)
-  const change = window.scrollY - lastScrollY.value
-  yOffset.value += change
-  nh.value.style.transform = `translateY(${yOffset.value}px)`
-  lastScrollY.value = window.scrollY
+// for cross browser support
+// const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
+const vh = window.innerHeight
+
+const isElementSpillingBottom = (el: HTMLElement) => {
+  const { bottom } = el.getBoundingClientRect()
+  return (bottom - vh) <= 0
 }
 
-watch(y, () => {
-  window.requestAnimationFrame(updateNhPosition)
-})
+const isElementSpillingTop = (el: HTMLElement) => {
+  const { top } = el.getBoundingClientRect()
+  return (top + vh) >= vh
+}
+
+const isInHiddenZone = (el: HTMLElement) => {
+  const { bottom } = el.getBoundingClientRect()
+  return (bottom - vh) <= -vh / 2
+}
+
+const updateNhPosition = () => {
+  if (isElementSpillingBottom(component.value)) {
+    nh.value.classList.remove('in-transit')
+    const componentHeight = component.value.getBoundingClientRect().height
+    nh.value.style.transform = `translateY(${componentHeight - vh}px)`
+    isInHiddenZone(component.value) ? nh.value.classList.add('hide') : nh.value.classList.remove('hide')
+  } else if (isElementSpillingTop(component.value)) {
+    nh.value.style.transform = `translateY(0px)`
+    nh.value.classList.remove('in-transit')
+  } else {
+    nh.value.style.transform = `translate(-50%, -50%)`
+    nh.value.classList.add('in-transit')
+  }
+}
+
+watch(y, updateNhPosition)
 </script>
 
 <style scoped>
@@ -117,10 +123,15 @@ watch(y, () => {
   mask-image: url(https://worldpopulationreview.com/state-outlines/nh/outline-nh-1400w.png);
 }
 
-/* make a class that is a light blue halo glow */
-.halo {
-  -webkit-box-shadow:0px 0px 300px 164px rgba(174,206,227,1);
-  -moz-box-shadow: 0px 0px 300px 164px rgba(174,206,227,1);
-  box-shadow: 0px 0px 300px 164px rgba(174,206,227,1);
+.in-transit {
+  position: fixed;
+  z-index: 1000;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.hide {
+  opacity: 0;
 }
 </style>
