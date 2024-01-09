@@ -1,16 +1,21 @@
 <template>
-  <div class="flex items-center flex-col px-2 py-5">
+  <div
+    ref="parent"
+    class="flex items-center flex-col px-2 py-5 opacity-0 transition duration-700 translate-y-16"
+  >
     <h1 class="text-white text-4xl font-extrabold text-center">
       Number of People in New Hampshire's Criminal System
     </h1>
-    <apexchart
-      @dataPointMouseEnter="setter"
-      @mouseleave="setSelectedPrisonPopulation(null)"
-      width="700"
-      type="pie"
-      :series="series"
-      :options="PieChartOptions"
-    ></apexchart>
+    <ChartObserver class="my-10">
+      <apexchart
+        @dataPointMouseEnter="setter"
+        @mouseleave="setSelectedPrisonPopulation(null)"
+        width="600"
+        type="pie"
+        :series="series"
+        :options="PieChartOptions"
+      ></apexchart>
+    </ChartObserver>
     <div class="flex flex-wrap gap-4 justify-center">
       <div
         v-for="population in prisonPopulation"
@@ -29,6 +34,20 @@
 </template>
 <script setup lang="ts">
 import { useDataStore } from '../stores/data'
+import { ref } from 'vue'
+import { useIntersectionObserver } from '@vueuse/core'
+import ChartObserver from './ChartObserver.vue';
+
+const parent = ref()
+
+const { stop } = useIntersectionObserver(parent, ([{ isIntersecting }]) => {
+  if (isIntersecting) {
+    stop()
+    parent.value.classList.remove('opacity-0', 'translate-y-16')
+  }
+}, {
+  threshold: 0.9,
+})
 
 const { prisonPopulation, setSelectedPrisonPopulation } = useDataStore();
 
@@ -43,29 +62,12 @@ const setter = (...args: any[]) => {
 const PieChartOptions = {
   labels,
   dataLabels: {
-    enabled: true,
-    formatter: () => "",
+    enabled: false,
   },
   colors,
-  plotOptions: {
-    pie: {
-      size: 250,
-      customScale: 0.8,
-      expandOnClick: false,
-    },
-  },
   animations: {
     enabled: true,
-    easing: "easeinout",
-    speed: 800,
-    animateGradually: {
-      enabled: true,
-      delay: 150,
-    },
-    dynamicAnimation: {
-      enabled: true,
-      speed: 350,
-    },
+    speed: 300
   },
   legend: {
     show: false,

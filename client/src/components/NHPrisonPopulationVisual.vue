@@ -1,7 +1,10 @@
 <template>
-  <div class="w-full grid place-items-center">
-    <h1 :class="`text-8xl font-extrabold text-white mb-5`">
-      {{ number.toLocaleString() }}
+  <div
+    ref="direct"
+    class="w-full grid place-items-center"
+  >
+    <h1 class="text-8xl font-extrabold text-white mb-5">
+      {{ numberDisplay }}
     </h1>
     <h2 class="text-5xl font-extrabold text-white">
       {{ title }}
@@ -18,14 +21,38 @@
     <img
       :src="image"
       class="mt-5"
-    >
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { useDataStore } from '../stores/data'
 import { storeToRefs } from 'pinia';
-import { computed, ref, watch } from 'vue';
+import { computed, ref, watch, onMounted } from 'vue';
+import { useIntersectionObserver } from '@vueuse/core';
+
+const direct = ref();
+
+onMounted(() => {
+  const children = direct.value.children;
+  console.log(children);
+  for (let i = 0; i < children.length; i++) {
+    children[i].classList.add('starter', 'transition', 'duration-700');
+  }
+})
+
+const { stop } = useIntersectionObserver(direct, async ([{ isIntersecting }]) => {
+  if (isIntersecting) {
+    stop();
+    const children = direct.value.children;
+    for (let i = 0; i < children.length; i++) {
+      await new Promise((resolve) => setTimeout(resolve, 250))
+      children[i].classList.remove('starter', 'trans');
+    }
+  }
+}, {
+  threshold: 0.9,
+})
 
 const { prisonPopulation } = useDataStore();
 const { selectedPrisonPopulation } = storeToRefs(useDataStore());
@@ -36,6 +63,10 @@ const totalPopulation = computed(() => {
 
 const number = computed(() => {
   return selectedPrisonPopulation.value?.value ?? totalPopulation.value;
+})
+
+const numberDisplay = computed(() => {
+  return number.value.toLocaleString();
 })
 
 const image = ref('');
@@ -66,3 +97,10 @@ const title = computed(() => {
   }
 })
 </script>
+
+<style scoped>
+.starter {
+  transform: translateY(20px);
+  opacity: 0;
+}
+</style>

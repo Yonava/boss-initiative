@@ -8,11 +8,11 @@
     <div class="absolute left-60 top-44 z-30 uppercase">
 
       <h1 class="font-black font-[sans-serif] text-[10rem] leading-[160px] mb-2">
-        <span class="bg-gradient-to-r from-red-500 to-blue-600 bg-clip-text text-transparent">
+        <span class="bg-gradient-to-r from-blue-800 to-blue-600 bg-clip-text text-transparent">
           boss
         </span>
         <br>
-        <span>
+        <span class="capitalize">
           initiative
         </span>
       </h1>
