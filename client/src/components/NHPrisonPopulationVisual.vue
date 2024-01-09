@@ -35,7 +35,6 @@ const direct = ref();
 
 onMounted(() => {
   const children = direct.value.children;
-  console.log(children);
   for (let i = 0; i < children.length; i++) {
     children[i].classList.add('starter', 'transition', 'duration-700');
   }

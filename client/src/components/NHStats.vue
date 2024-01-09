@@ -7,7 +7,7 @@
 
   <div
     ref="component"
-    class="relative w-full h-[300vh] bg-gradient-to-b from-blue-500 to-black flex"
+    class="relative w-full h-[300vh] bg-gradient-to-b from-blue-500 to-black flex overflow-hidden"
   >
     <div class="absolute w-full h-[100vh] flex justify-center items-center z-30">
       <div
