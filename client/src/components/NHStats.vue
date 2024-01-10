@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full bg-blue-500 pt-[200px] grid place-items-center">
+  <div class="w-full bg-blue-500 py-12 flex justify-center">
     <h1 class="absolute z-20 text-white text-8xl uppercase w-1/2 text-center">
       Facing our issues <span class="font-extrabold">head on</span>
     </h1>
@@ -15,6 +15,7 @@
         class="transition-opacity duration-700"
       >
         <img
+          v-if="!isOnSafari"
           class="absolute translate-x-10 -translate-y-16 w-[600px] grayscale brightness-200 blur-2xl"
           :style="{ opacity }"
           src="https://worldpopulationreview.com/state-outlines/nh/outline-nh-1400w.png"
@@ -24,6 +25,7 @@
         >
           <div class="bg-gradient-to-r from-blue-700 to-blue-900 h-full w-[700px]">
             <img
+              v-if="!isOnSafari"
               src="https://imageio.forbes.com/specials-images/imageserve/891326652/COVID-19--novel-coronavirus--jails--prisons--infections--outbreak--pandemic/0x0.jpg?format=jpg&crop=4633,3089,x0,y673,safe&width=960"
               class="w-full h-full object-cover grayscale transition-opacity duration-700"
               :style="{
@@ -91,9 +93,10 @@ const pagePercentage = ref(0)
 
 const { y } = useWindowScroll()
 
-// for cross browser support
-// const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
+// fallback
 const vh = window.innerHeight
+
+const isOnSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
 
 const isElementSpillingBottom = (el: HTMLElement) => {
   const { bottom } = el.getBoundingClientRect()

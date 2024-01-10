@@ -1,7 +1,6 @@
 <template>
-  <div class="bg-black h-[100vh] w-full grid place-items-center">
-    <h1 class="text-white text-5xl font-black">
-      Darkness Area
-    </h1>
+  <div class="w-full h-[100vh]">
+    <div class="absolute bg-black w-full h-full"></div>
+    <div class="bg-gradient-to-tr from-blue-500 to-red-500 h-full w-full grid place-items-center"></div>
   </div>
 </template>
