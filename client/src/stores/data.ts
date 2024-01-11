@@ -90,3 +90,13 @@ export const useDataStore = defineStore('data', () => {
     prisonRates,
   }
 })
+
+export type Article = {
+  title: string,
+  id : number,
+  image: string,
+  author: string,
+  date: Date,
+  content: string,
+  synopsis: string
+}
