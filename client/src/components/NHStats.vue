@@ -9,7 +9,7 @@
     ref="component"
     class="relative w-full h-[300vh] bg-gradient-to-b from-blue-500 to-black flex overflow-hidden"
   >
-    <div class="absolute w-full h-[100vh] flex justify-center items-center z-30">
+    <div class="absolute w-full h-[100vh] flex justify-center items-center z-20">
       <div
         ref="nh"
         class="transition-opacity duration-700"
@@ -23,17 +23,7 @@
         <div
           class="masker h-[700px]"
         >
-          <div class="bg-gradient-to-r from-blue-700 to-blue-900 h-full w-[700px]">
-            <img
-              v-if="!isOnSafari"
-              src="https://imageio.forbes.com/specials-images/imageserve/891326652/COVID-19--novel-coronavirus--jails--prisons--infections--outbreak--pandemic/0x0.jpg?format=jpg&crop=4633,3089,x0,y673,safe&width=960"
-              class="w-full h-full object-cover grayscale transition-opacity duration-700"
-              :style="{
-                opacity: pagePercentage ? 0.3 : 0,
-                transform: `scale(${pagePercentage * 0.15 + 1})`,
-              }"
-            >
-          </div>
+          <div class="bg-gradient-to-r from-blue-700 to-blue-900 h-full w-[700px]"></div>
         </div>
       </div>
     </div>
@@ -69,7 +59,7 @@
       class="-bottom-28 -left-36 w-[600px] h-[600px] object-fill"
       :style="{
         opacity: prisonerOpacity,
-        transform: `translateX(${getFromPercentage([0.6, 1], pagePercentage) * 200}px) scale(${getFromPercentage([0.3, 1.4], pagePercentage)})`,
+        transform: `translateX(${getFromPercentage([0.6, 1], pagePercentage) * 200}px) scale(${getFromPercentage([0.8, 1.4], pagePercentage)})`,
         position: pagePercentage > 0.99 ? 'absolute' : 'fixed',
       }"
     />
@@ -80,7 +70,6 @@
 import { computed, ref, watch } from 'vue'
 import { useWindowScroll } from '@vueuse/core'
 import { getFromPercentage, getPercentage } from '@/percentHelper'
-import ImagePresenter from './ImagePresenter.vue'
 import NHPrisonPopulation from './NHPrisonPopulation.vue'
 import NHPrisonPopulationVisual from './NHPrisonPopulationVisual.vue'
 import NHPrisonIncrease from './NHPrisonIncrease.vue'
@@ -93,7 +82,6 @@ const pagePercentage = ref(0)
 
 const { y } = useWindowScroll()
 
-// fallback
 const vh = window.innerHeight
 
 const isOnSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
@@ -124,7 +112,7 @@ const getPagePercentage = (el: HTMLElement) => {
 const opacity = computed(() => getFromPercentage([0, 0.15], pagePercentage.value))
 const prisonerOpacity = computed(() => {
   const percent = getPercentage([0.7, 1], pagePercentage.value)
-  return getFromPercentage([0, 0.3], percent)
+  return getFromPercentage([0, 1], percent)
 })
 
 const updateNhPosition = () => {
@@ -160,7 +148,6 @@ watch(y, updateNhPosition)
 
 .in-transit {
   position: fixed;
-  z-index: 1000;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
