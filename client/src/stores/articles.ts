@@ -23,7 +23,7 @@ const generateMockArticle = () => ({
 
 export const useArticlesStore = defineStore('articles', () => {
 
-  // keep internal!
+  // keep internal! this acts similarly to a mongo collection
   const articles = Array.from({ length: 1_000 }, generateMockArticle)
 
   const getArticles = () => {
