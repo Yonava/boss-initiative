@@ -17,7 +17,7 @@
         <img
           v-if="!isOnSafari"
           class="absolute translate-x-10 -translate-y-16 w-[600px] grayscale brightness-200 blur-2xl"
-          :style="{ opacity }"
+          :style="{ opacity: nhGlowOpacity }"
           src="https://worldpopulationreview.com/state-outlines/nh/outline-nh-1400w.png"
         >
         <div
@@ -44,24 +44,16 @@
       </div>
     </div>
 
-    <!-- rgb(45,104,184) -->
-    <!-- rgb(23,37,62) -->
-    <!-- ${getFromPercentage([23, 29], pagePercentage)},${getFromPercentage([65, 37], pagePercentage)},${getFromPercentage([121, 62], pagePercentage)} -->
-
     <div class="absolute w-full h-full flex justify-between px-12 z-20">
       <div
         v-for="_ in 10"
-        :class="`w-[${getPercentage([0.55, 0.75], pagePercentage) * 50}px] h-full bg-gradient-to-b from-[rgb(${getFromPercentage([45, 23], pagePercentage)},${getFromPercentage([104, 37], pagePercentage)},${getFromPercentage([184, 62], pagePercentage)})] from-90% to-black shadow-2xl shadow-[rgb(${getFromPercentage([45, 0], pagePercentage)},${getFromPercentage([104, 0], pagePercentage)},${getFromPercentage([184, 0], pagePercentage)})] opacity-100`"
+        :class="barsClasses"
       ></div>
     </div>
     <img
       src="https://www.onlygfx.com/wp-content/uploads/2019/06/10-man-sitting-silhouette-8.png"
+      :style="prisonerStyle"
       class="-bottom-28 -left-36 w-[600px] h-[600px] object-fill"
-      :style="{
-        opacity: prisonerOpacity,
-        transform: `translateX(${getFromPercentage([0.6, 1], pagePercentage) * 200}px) scale(${getFromPercentage([0.8, 1.4], pagePercentage)})`,
-        position: pagePercentage > 0.99 ? 'absolute' : 'fixed',
-      }"
     />
   </div>
 </template>
@@ -109,17 +101,41 @@ const getPagePercentage = (el: HTMLElement) => {
   return num / 100
 }
 
-const opacity = computed(() => getFromPercentage([0, 0.15], pagePercentage.value))
-const prisonerOpacity = computed(() => {
-  const percent = getPercentage([0.7, 1], pagePercentage.value)
-  return getFromPercentage([0, 1], percent)
+const fp = computed(() => (lower: number, upper: number) => getFromPercentage([lower, upper], pagePercentage.value))
+const gp = computed(() => (lower: number, upper: number) => getPercentage([lower, upper], pagePercentage.value))
+
+const nhGlowOpacity = computed(() => fp.value(0, 0.15))
+
+const barsClasses = computed(() => {
+  const widthInPx = gp.value(0.55, 0.75) * 50
+  const rgb = [fp.value(45, 23), fp.value(104, 37), fp.value(184, 62)].join(',')
+  const shadowRgb = [fp.value(45, 0), fp.value(104, 0), fp.value(184, 0)].join(',')
+  const opacity = gp.value(0.55, 0.85).toFixed(2)
+  const staticClasses = ['h-full', 'shadow-2xl', 'bg-gradient-to-b', 'from-90%', 'to-black']
+  return [
+    `w-[${widthInPx}px]`,
+    `from-[rgb(${rgb})]`,
+    `shadow-[rgb(${shadowRgb})]`,
+    `opacity-[${opacity}]`,
+    ...staticClasses
+  ]
+})
+
+const prisonerStyle = computed(() => {
+  const opacity = getFromPercentage([0, 1], gp.value(0.7, 1))
+  const [xOffset, scale] = [fp.value(0.6, 1) * 200, fp.value(0.8, 1.4)]
+  const position = pagePercentage.value > 0.99 ? 'absolute' : 'fixed'
+  return {
+    opacity,
+    position,
+    transform: `translateX(${xOffset}px) scale(${scale})`
+  } as Record<string, string | number>
 })
 
 const updateNhPosition = () => {
-  pagePercentage.value = getPagePercentage(component.value)
   if (isElementSpillingBottom(component.value)) {
     nh.value.classList.remove('in-transit')
-    const componentHeight = component.value.getBoundingClientRect().height
+    const { height: componentHeight } = component.value.getBoundingClientRect()
     nh.value.style.transform = `translateY(${componentHeight - vh}px)`
     isInHiddenZone(component.value) ? nh.value.classList.add('hide') : nh.value.classList.remove('hide')
   } else if (isElementSpillingTop(component.value)) {
@@ -131,7 +147,10 @@ const updateNhPosition = () => {
   }
 }
 
-watch(y, updateNhPosition)
+watch(y, () => {
+  pagePercentage.value = getPagePercentage(component.value)
+  updateNhPosition()
+})
 </script>
 
 <style scoped>
