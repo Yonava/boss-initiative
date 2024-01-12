@@ -1,4 +1,5 @@
 <template>
+
   <div class="w-full bg-blue-500 py-12 flex justify-center">
     <h1 class="absolute z-20 text-white text-8xl uppercase w-1/2 text-center">
       Facing our issues <span class="font-extrabold">head on</span>
@@ -10,19 +11,14 @@
     class="relative w-full h-[300vh] bg-gradient-to-b from-blue-500 to-black flex overflow-hidden"
   >
     <div class="absolute w-full h-[100vh] flex justify-center items-center z-20">
-      <div
-        ref="nh"
-        class="transition-opacity duration-700"
-      >
+      <div ref="nh">
         <img
           v-if="!isOnSafari"
           class="absolute translate-x-10 -translate-y-16 w-[600px] grayscale brightness-200 blur-2xl"
           :style="{ opacity: nhGlowOpacity }"
           src="https://worldpopulationreview.com/state-outlines/nh/outline-nh-1400w.png"
-        >
-        <div
-          class="masker h-[700px]"
-        >
+        />
+        <div class="masker h-[700px]">
           <div class="bg-gradient-to-r from-blue-700 to-blue-900 h-full w-[700px]"></div>
         </div>
       </div>
