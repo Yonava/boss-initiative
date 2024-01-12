@@ -1,50 +1,55 @@
 <template>
+  <div class="relative w-full py-[150px] bg-black grid place-items-center z-50">
+    <div ref="spawn"></div>
 
-  <div class="relative w-full h-[100vh] overflow-hidden bg-black">
-    <div class="absolute bg-gradient-to-b from-black from-10% via-transparent to-90% to-black h-full w-full z-20"></div>
-    <img
-      ref="image"
-      class="absolute w-full h-full scale-[1.5]"
-      :style="{ transform: `translateX(${currentlyIntersecting ? (y - intersectingY) * 0.05 : 0}px)` }"
-      src="../assets/behind_bars.png"
-      alt="Behind Bars"
-    />
-
-    <div class="absolute w-full text-gray-200 grid place-items-center bottom-44 z-20">
-      <div class="halo grid place-items-center bg-[rgba(0,0,0,0.85)] pb-8">
-        <h1 class="text-[12rem] font-extrabold leading-0 bg-gradient-to-br from-gray-500 to-white bg-clip-text text-transparent">
+    <div class="w-full text-[rgb(23,37,62)] grid place-items-center">
+      <div class="grid place-items-center pb-8">
+        <h1 class="text-[12rem] font-extrabold leading-0">
           {{ countString }}
         </h1>
-        <h2 class="text-6xl font-light w-2/3 text-center text-gray-300">
-          Persons Experiencing Incarceration In The United States
+        <h2 class="text-6xl font-extrabold text-center ">
+          Individuals Arrested This Year
         </h2>
       </div>
     </div>
+
+    <div class="absolute bg-gradient-to-tr from-blue-900 via-blue-600 to-red-600 w-2/3 h-20 -z-10 rounded-full blur-[150px]"></div>
+
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { useWindowScroll, useIntersectionObserver } from '@vueuse/core'
-
-const { y } = useWindowScroll()
-
-const image = ref()
-const intersectingY = ref(0)
-const currentlyIntersecting = ref(false)
-
-useIntersectionObserver(image,([{ isIntersecting }]) => {
-    if (isIntersecting) {
-      console.log('intersecting')
-      intersectingY.value = y.value
-      currentlyIntersecting.value = true
-    } else {
-      currentlyIntersecting.value = false
-    }
-  },
-)
 
 const count = ref(2_743_400)
+
+const spawn = ref()
+
+const getRandomInt = (min: number, max: number) => {
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+const spawnParticle = () => {
+  const classes = ['h-12', 'w-12', 'absolute', 'top-0', 'bg-gradient-to-br', 'rounded-full']
+  const colors = [['from-blue-900', 'to-gray-900'], ['from-red-900', 'to-gray-900'], ['from-blue-600', 'to-gray-900'], ['from-red-500', 'to-blue-500'], ['from-blue-800', 'to-gray-600']]
+  const color = colors[getRandomInt(0, colors.length - 1)]
+  const randomX = getRandomInt(5, 95)
+  const particle = document.createElement('div')
+  particle.classList.add(...classes, `left-[${randomX}%]`, ...color)
+  spawn.value?.appendChild(particle)
+
+  particle.animate([
+    { transform: 'translate(0, -5vh)', opacity: 0 },
+    { transform: 'translate(0, 5vh)', opacity: 0.2 },
+    { transform: 'translate(0, 150vh)', opacity: 0 }
+  ], {
+    duration: 3000,
+    easing: 'linear',
+    fill: 'forwards'
+  });
+
+  particle.onanimationend = () => spawn.value.removeChild(particle)
+}
 
 const countString = computed(() => count.value.toLocaleString())
 
@@ -59,7 +64,8 @@ const run = () => {
   setTimeout(() => {
     increment()
     run()
-  }, getDuration(500))
+    spawnParticle()
+  }, getDuration(50))
 }
 
 run()
@@ -70,5 +76,22 @@ run()
   -webkit-box-shadow:0px 0px 300px 164px rgba(0, 0, 0, 0.85);
   -moz-box-shadow: 0px 0px 300px 164px rgba(0, 0, 0, 0.85);
   box-shadow: 0px 0px 300px 164px rgba(0, 0, 0, 0.85);
+}
+
+.particle-animation {
+  animation: particle 3s linear infinite;
+}
+
+@keyframes particle {
+  0% {
+    transform: translate(0, 0);
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, 190vh);
+    opacity: 0;
+  }
 }
 </style>

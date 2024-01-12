@@ -11,7 +11,10 @@
     class="relative w-full h-[300vh] bg-gradient-to-b from-blue-500 to-black flex overflow-hidden"
   >
     <div class="absolute w-full h-[100vh] flex justify-center items-center z-20">
-      <div ref="nh">
+      <div
+        ref="nh"
+        class="transition-opacity duration-700"
+      >
         <img
           v-if="!isOnSafari"
           class="absolute translate-x-10 -translate-y-16 w-[600px] grayscale brightness-200 blur-2xl"
