@@ -29,7 +29,7 @@
         </svg>
       </div>
       <p class="text-[16px] text-black font-semibold self-center">
-        {{ article.Author }}
+        {{ props.article.author }}
       </p>
       <p class="text-[16px] text-black font-semibold self-center">
         {{ article.date.toDateString() }}
@@ -38,7 +38,7 @@
     <span class="-space-y-1">
       <p>
         <span class="font-semibold">Synopsis:</span>
-        <span>{{ props.synopsis }}</span>
+        <span>{{ props.article.synopsis }}</span>
       </p>
       <p>
         {{
