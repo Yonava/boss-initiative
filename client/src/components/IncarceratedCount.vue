@@ -1,8 +1,9 @@
 <template>
   <div class="relative w-full py-[150px] bg-black grid place-items-center z-50">
+
     <div ref="spawn"></div>
 
-    <div class="w-full text-[rgb(23,37,62)] grid place-items-center">
+    <div class="w-full text-gray-100 grid place-items-center">
       <div class="grid place-items-center pb-8">
         <h1 class="text-[12rem] font-extrabold leading-0">
           {{ countString }}
@@ -13,7 +14,9 @@
       </div>
     </div>
 
-    <div class="absolute bg-gradient-to-tr from-blue-900 via-blue-600 to-red-600 w-2/3 h-20 -z-10 rounded-full blur-[150px]"></div>
+    <div
+      class="absolute bg-gradient-to-tr from-blue-900 via-blue-600 to-red-600 w-2/3 h-44 -z-10 rounded-full blur-[150px]"
+    ></div>
 
   </div>
 </template>
@@ -65,7 +68,7 @@ const run = () => {
     increment()
     run()
     spawnParticle()
-  }, getDuration(50))
+  }, getDuration(500))
 }
 
 run()

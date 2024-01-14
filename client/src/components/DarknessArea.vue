@@ -9,7 +9,7 @@
     >
       <div class="absolute h-[100vh] w-[100vw]">
         <div
-          class="text-3xl text-[rgb(23,37,62)] font-extrabold px-[150px]"
+          class="text-3xl text-gray-100 font-extrabold px-[150px]"
           :style="maskPositionOffset"
         >
 

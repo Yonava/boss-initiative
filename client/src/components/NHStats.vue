@@ -148,7 +148,7 @@ const updateNhPosition = () => {
 
 watch(y, () => {
   pagePercentage.value = getPagePercentage(component.value)
-  updateNhPosition()
+  window.requestAnimationFrame(updateNhPosition)
 })
 </script>
 
