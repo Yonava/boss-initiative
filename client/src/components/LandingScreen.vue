@@ -1,7 +1,4 @@
 <template>
-
-  <TopNav />
-
   <div class="w-[100vw] h-[100vh] relative overflow-hidden">
 
     <!-- title -->
@@ -43,7 +40,6 @@
 
 <script setup lang="ts">
 import RoundedButton from './RoundedButton.vue'
-import TopNav from './TopNav.vue';
 </script>
 
 <style scoped>

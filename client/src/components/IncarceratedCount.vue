@@ -1,5 +1,5 @@
 <template>
-  <div class="relative w-full py-[150px] bg-black grid place-items-center z-50">
+  <div class="relative w-full py-[150px] bg-black grid place-items-center z-40">
 
     <div ref="spawn"></div>
 
@@ -47,7 +47,6 @@ const getRandomBarLocation = () => {
   const randomIndex = getRandomInt(0, barLocations.value.length - 1)
   const barRef = barLocations.value[randomIndex]
   const rect = barRef?.getBoundingClientRect()
-  console.log(rect?.x)
   return rect?.x
 }
 
@@ -87,7 +86,7 @@ const run = () => {
     increment()
     run()
     spawnParticle()
-  }, getDuration(500))
+  }, getDuration(50))
 }
 
 run()
