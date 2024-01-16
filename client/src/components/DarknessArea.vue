@@ -24,7 +24,7 @@
               :key="card.title"
               :ref="el => cardRefs.push(el)"
               :style="{
-                transform: `rotateX(${card.tilt * 20}deg) rotateY(${card.roll * 20}deg)`,
+                transform: `rotateX(${card.roll * 20}deg) rotateY(${card.tilt * 20}deg)`,
               }"
               class="w-[700px] h-[300px] bg-gradient-to-r from-gray-900 from-50% to-gray-800 rounded-2xl flex overflow-hidden"
             >

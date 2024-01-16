@@ -3,7 +3,7 @@
     class="absolute z-50 bg-white rounded-xl shadow-lg flex overflow-hidden h-32"
     :style="{
       left: x - 75 + 'px',
-      top: y + 75 + 'px'
+      top: y + 75 + 'px',
     }"
   >
     <img

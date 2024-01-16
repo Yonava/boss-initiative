@@ -1,5 +1,5 @@
 <template>
-  <div :class="`fixed w-full top-0 z-50 flex justify-between ${showShadow ? 'shadow-lg' : ''} -translate-y-${showNav ? 0 : 32} transition duration-300 ease-in-out delay-300 overflow-hidden`">
+  <div :class="`fixed w-full top-0 z-50 flex justify-between ${showShadow ? 'shadow-lg' : ''} -translate-y-${showNav ? 0 : 32} transition duration-300 ease-in-out delay-300`">
     <div class="absolute w-full h-full bg-white -z-10 opacity-90"></div>
     <div
       @click="router.push({ name: 'home' })"
@@ -12,7 +12,7 @@
       />
     </div>
 
-    <div class="right-0 flex">
+    <div class="flex">
       <TopNavButton
         v-for="(btn, i) in btns"
         @mouseover="setActive(i)"
@@ -102,6 +102,7 @@ const setActive = (index: number) => {
   highlighted.value = btns[index]
   active.value = true
   popoverLocation.value = refs[index].getBoundingClientRect()
+  console.log(popoverLocation.value)
 }
 
 const mainBtn = {

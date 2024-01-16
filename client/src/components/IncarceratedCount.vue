@@ -86,7 +86,7 @@ const run = () => {
     increment()
     run()
     spawnParticle()
-  }, getDuration(50))
+  }, getDuration(500))
 }
 
 run()
