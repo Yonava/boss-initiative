@@ -1,54 +1,77 @@
 <template>
-  <div class="absolute left-0 p-6 z-40">
-    <img
-      src="../assets/boss_logo.png"
-      alt="boss initiative logo"
-      class="w-80"
+  <div :class="`fixed w-full top-0 z-50 flex justify-between ${showShadow ? 'shadow-lg' : ''} -translate-y-${showNav ? 0 : 32} transition duration-300 ease-in-out delay-300`">
+    <div class="absolute w-full h-full bg-white -z-10 opacity-90"></div>
+    <div
+      @click="router.push({ name: 'home' })"
+      class="left-0 p-6 cursor-pointer"
+    >
+      <img
+        src="../assets/boss_logo.png"
+        alt="boss initiative logo"
+        class="w-56"
+      />
+    </div>
+
+    <div class="flex">
+      <TopNavButton
+        v-for="(btn, i) in btns"
+        @mouseover="setActive(i)"
+        @mouseleave="active = false"
+        :key="btn.text"
+        class="hover:bg-blue-800 hover:text-white transition duration-300"
+      >
+        <div
+          :ref="el => refs[i] = el"
+        >
+          {{ btn.text }}
+        </div>
+      </TopNavButton>
+      <div
+        :ref="el => refs[refs.length] = el"
+        class="group text-gray-50 relative w-64 overflow-hidden"
+      >
+        <TopNavButton class="absolute top-0 z-20">
+          {{ mainBtn.text }}
+        </TopNavButton>
+        <div class="absolute h-full bg-blue-600 w-full top-0"></div>
+        <div
+          class="absolute h-full bg-blue-800 w-full transition duration-500 ease-in-out -translate-x-[100%] group-hover:-translate-x-0 top-0"
+        ></div>
+      </div>
+    </div>
+
+    <PopoverCard
+      :class="active ? 'opacity-100' : 'opacity-0' + ' transition duration-500'"
+      :title="highlighted.title"
+      :desc="highlighted.desc + popoverLocation.x + ' ' + popoverLocation.y"
+      :img="highlighted.img"
+      :x="popoverLocation.x"
+      :y="popoverLocation.y"
     />
   </div>
-
-  <div class="absolute right-0 top-0 flex z-40">
-    <TopNavButton
-      v-for="(btn, i) in btns"
-      @mouseover="setActive(i)"
-      @mouseleave="active = false"
-      :key="btn.text"
-      class="hover:bg-blue-800 hover:text-white transition duration-300"
-    >
-      <div
-        :ref="el => refs[i] = el"
-      >
-        {{ btn.text }}
-      </div>
-    </TopNavButton>
-    <div
-      :ref="el => refs[refs.length] = el"
-      class="group text-gray-50 relative w-64 overflow-hidden"
-    >
-      <TopNavButton class="absolute top-0 z-20">
-        {{ mainBtn.text }}
-      </TopNavButton>
-      <div class="absolute h-full bg-blue-600 w-full top-0"></div>
-      <div
-        class="absolute h-full bg-blue-800 w-full transition duration-500 ease-in-out -translate-x-[100%] group-hover:-translate-x-0 top-0"
-      ></div>
-    </div>
-  </div>
-
-  <PopoverCard
-    :class="active ? 'opacity-100' : 'opacity-0' + ' transition duration-500'"
-    :title="highlighted.title"
-    :desc="highlighted.desc + popoverLocation.x + ' ' + popoverLocation.y"
-    :img="highlighted.img"
-    :x="popoverLocation.x"
-    :y="popoverLocation.y"
-  />
 </template>
 
 <script setup lang="ts">
 import TopNavButton from './TopNavButton.vue';
 import PopoverCard from './PopoverCard.vue';
-import { ref } from 'vue'
+import { ref, watch, computed } from 'vue'
+import { useWindowScroll } from '@vueuse/core';
+import { useRouter } from 'vue-router'
+
+const { y } = useWindowScroll()
+
+const router = useRouter()
+
+const showShadow = computed(() => y.value > 0)
+
+const showNav = ref(true)
+
+watch(y, (newY, oldY) => {
+  if (newY < 500) {
+    return showNav.value = true
+  }
+  showNav.value = newY < oldY
+})
 
 type NavButton = {
   text: string,
@@ -79,6 +102,7 @@ const setActive = (index: number) => {
   highlighted.value = btns[index]
   active.value = true
   popoverLocation.value = refs[index].getBoundingClientRect()
+  console.log(popoverLocation.value)
 }
 
 const mainBtn = {
