@@ -34,8 +34,5 @@ const props = defineProps<{
   pagination:number,
 }>();
 
-const handleChange = (event) =>{
-    emit("paginate",event.target.value);
-};
-
+const emit = defineEmits(['paginate'])
 </script>
