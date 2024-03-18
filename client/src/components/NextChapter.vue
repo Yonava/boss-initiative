@@ -1,16 +1,13 @@
 <template>
   <div class="w-full text-center bg-gray-200 flex justify-center items-center flex-col py-[150px] gap-[150px]">
     <h1 class="font-extrabold text-8xl">
-      We Help Formerly Incarcerated Individuals Start A New <span class="text-blue-600">Chapter</span>
+      We Help Formerly Incarcerated Individuals Start Their <span class="text-blue-600">Next Chapter</span>
     </h1>
 
     <div class="flex justify-around px-[100px] w-full">
-      <div
-        v-for="(phase, i) in phases"
-        :key="i"
-        class="flex flex-col items-center"
-      >
-        <div :class="`text-8xl font-extrabold w-44 h-44 bg-blue-${i + 6}00 rounded-full grid place-items-center text-gray-100 shadow-xl`">
+      <div v-for="(phase, i) in phases" :key="i" class="flex flex-col items-center">
+        <div
+          :class="`text-8xl font-extrabold w-44 h-44 bg-blue-${i + 6}00 rounded-full grid place-items-center text-gray-100 shadow-xl`">
           {{ i + 1 }}
         </div>
         <h3 class="mt-5 text-3xl font-extrabold">
@@ -20,17 +17,12 @@
     </div>
 
     <div class="w-[74.5%] flex gap-12 flex-col">
-      <div
-        v-for="(phase, i) in phases"
-        :key="i"
-        class="flex w-full min-h-[400px]"
-      >
+      <div v-for="(phase, i) in phases" :key="i" class="flex w-full min-h-[400px]">
 
         <div :class="`flex flex-col w-2/3 text-left ${i % 2 ? 'order-2' : ''}`">
           <div class="flex gap-6 w-full">
             <div
-              :class="`text-8xl font-extrabold min-w-44 h-44 bg-blue-${i + 6}00 rounded-full grid place-items-center text-gray-100 shadow-xl`"
-            >
+              :class="`text-8xl font-extrabold min-w-44 h-44 bg-blue-${i + 6}00 rounded-full grid place-items-center text-gray-100 shadow-xl`">
               {{ i + 1 }}
             </div>
             <div class="max-w-1/3">
