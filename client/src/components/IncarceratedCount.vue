@@ -18,7 +18,7 @@
           {{ countString }}
         </h1>
         <h2 class="text-6xl font-extrabold text-center ">
-          Individuals Arrested This Year
+          Arrests This Year In The US*
         </h2>
       </div>
     </div>
@@ -33,7 +33,14 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 
-const count = ref(2_743_400)
+const totalArrests = 7_500_000
+
+const secondsSinceYearStarted = Math.floor(
+  (Date.now() - new Date(new Date().getFullYear(), 0, 1).getTime()) / 1000
+)
+
+const arrestsPerSecond = totalArrests / 365 / 24 / 60 / 60
+const count = ref(Math.floor((arrestsPerSecond * secondsSinceYearStarted)))
 
 const spawn = ref()
 
@@ -86,7 +93,7 @@ const run = () => {
     increment()
     run()
     spawnParticle()
-  }, getDuration(500))
+  }, getDuration(4000))
 }
 
 run()

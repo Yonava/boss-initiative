@@ -14,6 +14,10 @@
         </span>
       </h1>
 
+      <h2 class="text-5xl mb-10 font-bold">
+        The Next Chapter
+      </h2>
+
       <h2 class="font-black font-[sans-serif] text-[3rem] leading-[50px] w-[800px]">
         beating the odds and striving for success
       </h2>
@@ -29,7 +33,7 @@
     </div>
 
     <img
-      src="../assets/landing_man.png"
+      src="../assets/BossInitiativeBanner.png"
       alt="boss initiative logo"
       class="absolute bottom-0 right-0 w-[800px] transition-all duration-700 cursor-pointer man"
     />

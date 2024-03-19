@@ -1,6 +1,6 @@
 <template>
   <div :class="`fixed w-full top-0 z-50 flex justify-between ${showShadow ? 'shadow-lg' : ''} -translate-y-${showNav ? 0 : 32} transition duration-300 ease-in-out delay-300`">
-    <div class="absolute w-full h-full bg-white -z-10 opacity-90"></div>
+    <div class="absolute w-full h-full bg-white -z-10"></div>
     <div
       @click="router.push({ name: 'home' })"
       class="left-0 p-6 cursor-pointer"
@@ -43,7 +43,7 @@
     <PopoverCard
       :class="active ? 'opacity-100' : 'opacity-0' + ' transition duration-500'"
       :title="highlighted.title"
-      :desc="highlighted.desc + popoverLocation.x + ' ' + popoverLocation.y"
+      :desc="highlighted.desc"
       :img="highlighted.img"
       :x="popoverLocation.x"
       :y="popoverLocation.y"
@@ -70,6 +70,9 @@ watch(y, (newY, oldY) => {
   if (newY < 500) {
     return showNav.value = true
   }
+  if (!showNav.value) {
+    return showNav.value = newY < (oldY - 10)
+  }
   showNav.value = newY < oldY
 })
 
@@ -77,18 +80,20 @@ type NavButton = {
   text: string,
   img: string,
   title: string,
-  desc: string
+  desc: string,
+  link: string
 }
 
 const btns = [{
-  text: 'Learn More',
+  text: 'Our Program',
   img: '../assets/park.jpeg',
-  title: 'Explore Our Purpose',
-  desc: 'Learning about our organization and such'
+  title: 'What We Offer to Participants',
+  desc: 'Learn about our program and how we help formerly incarcerated individuals',
+  link: ''
 }, {
-  text: 'About Us',
-  title: 'Who We Are',
-  desc: '',
+  text: 'Our Team',
+  title: 'Meet Our Team',
+  desc: 'Learn about the people who make our organization possible',
   img: '../assets/walking.jpeg'
 }]
 
